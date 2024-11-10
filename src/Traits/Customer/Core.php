@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpReturnDocTypeMismatchInspection */
 /**
  * Core Operations Trait for Easy Digital Downloads (EDD) Customers
  *
@@ -89,8 +89,6 @@ trait Core {
 	 *                                         Defaults to null, which triggers fallback to the current user ID.
 	 *
 	 * @return mixed False if no valid customer is found, the customer object on success.
-	 * @since 1.0
-	 *
 	 */
 	public static function get_by_identifier( $user_identifier = null ) {
 
