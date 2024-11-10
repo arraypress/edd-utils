@@ -140,6 +140,44 @@ trait Terms {
 	}
 
 	/**
+	 * Get term slugs for customer's purchased products.
+	 *
+	 * @param int    $customer_id The ID of the customer.
+	 * @param string $taxonomy    The taxonomy to retrieve terms from.
+	 * @param array  $status      Optional. Array of order statuses to consider.
+	 *
+	 * @return array|null Array of term slugs or null if no items found.
+	 */
+	public static function get_term_slugs( int $customer_id, string $taxonomy = 'download_category', array $status = [] ): ?array {
+		$terms = self::get_terms( $customer_id, $taxonomy, $status );
+
+		if ( null === $terms ) {
+			return null;
+		}
+
+		return wp_list_pluck( $terms, 'slug' );
+	}
+
+	/**
+	 * Get term names for customer's purchased products.
+	 *
+	 * @param int    $customer_id The ID of the customer.
+	 * @param string $taxonomy    The taxonomy to retrieve terms from.
+	 * @param array  $status      Optional. Array of order statuses to consider.
+	 *
+	 * @return array|null Array of term names or null if no items found.
+	 */
+	public static function get_term_names( int $customer_id, string $taxonomy = 'download_category', array $status = [] ): ?array {
+		$terms = self::get_terms( $customer_id, $taxonomy, $status );
+
+		if ( null === $terms ) {
+			return null;
+		}
+
+		return wp_list_pluck( $terms, 'name' );
+	}
+
+	/**
 	 * Count terms associated with a customer's purchased products.
 	 *
 	 * @param int    $customer_id The ID of the customer.
@@ -150,6 +188,8 @@ trait Terms {
 	 */
 	public static function count_terms( int $customer_id, string $taxonomy = 'download_category', array $status = [] ): int {
 		$terms = self::get_terms( $customer_id, $taxonomy, $status );
+
 		return $terms ? count( $terms ) : 0;
 	}
+
 }

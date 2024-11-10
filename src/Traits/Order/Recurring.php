@@ -34,10 +34,6 @@ trait Recurring {
 	 * @return bool True if the order is a subscription, false otherwise.
 	 */
 	public static function is_subscription( int $order_id ): bool {
-		if ( ! function_exists( 'EDD_Recurring' ) ) {
-			return false;
-		}
-
 		return (bool) edd_get_order_meta( $order_id, '_edd_subscription_payment', true );
 	}
 

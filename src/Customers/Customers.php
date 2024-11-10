@@ -48,6 +48,60 @@ class Customers {
 	}
 
 	/**
+	 * Get IDs of most valuable customers.
+	 *
+	 * @param string|null $start_date    Start date for the query (optional).
+	 * @param string|null $end_date      End date for the query (optional).
+	 * @param bool        $exclude_taxes Whether to exclude taxes from the total. Default false.
+	 * @param string      $currency      Currency to filter by. Default empty string.
+	 * @param int         $limit         Number of customer IDs to retrieve. Default 5.
+	 *
+	 * @return array Array of customer IDs
+	 * @throws Exception
+	 */
+	public static function get_most_valuable_ids( ?string $start_date = null, ?string $end_date = null, bool $exclude_taxes = false, string $currency = '', int $limit = 5 ): array {
+		$customers = self::get_most_valuable( $start_date, $end_date, $exclude_taxes, $currency, $limit );
+
+		return array_map( static fn( $customer ) => $customer->customer_id, $customers );
+	}
+
+	/**
+	 * Get emails of most valuable customers.
+	 *
+	 * @param string|null $start_date    Start date for the query (optional).
+	 * @param string|null $end_date      End date for the query (optional).
+	 * @param bool        $exclude_taxes Whether to exclude taxes from the total. Default false.
+	 * @param string      $currency      Currency to filter by. Default empty string.
+	 * @param int         $limit         Number of customer emails to retrieve. Default 5.
+	 *
+	 * @return array Array of customer emails
+	 * @throws Exception
+	 */
+	public static function get_most_valuable_emails( ?string $start_date = null, ?string $end_date = null, bool $exclude_taxes = false, string $currency = '', int $limit = 5 ): array {
+		$customers = self::get_most_valuable( $start_date, $end_date, $exclude_taxes, $currency, $limit );
+
+		return array_map( static fn( $customer ) => $customer->object->email, $customers );
+	}
+
+	/**
+	 * Get names of most valuable customers.
+	 *
+	 * @param string|null $start_date    Start date for the query (optional).
+	 * @param string|null $end_date      End date for the query (optional).
+	 * @param bool        $exclude_taxes Whether to exclude taxes from the total. Default false.
+	 * @param string      $currency      Currency to filter by. Default empty string.
+	 * @param int         $limit         Number of customer emails to retrieve. Default 5.
+	 *
+	 * @return array Array of customer names
+	 * @throws Exception
+	 */
+	public static function get_most_valuable_names( ?string $start_date = null, ?string $end_date = null, bool $exclude_taxes = false, string $currency = '', int $limit = 5 ): array {
+		$customers = self::get_most_valuable( $start_date, $end_date, $exclude_taxes, $currency, $limit );
+
+		return array_map( static fn( $customer ) => $customer->object->name, $customers );
+	}
+
+	/**
 	 * Get the average customer lifetime value.
 	 *
 	 * @param string|null $start_date    Start date for the query (optional).

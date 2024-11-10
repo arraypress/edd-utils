@@ -15,7 +15,7 @@ namespace ArrayPress\EDD\Countries;
 
 use ArrayPress\Utils\Common\Arr;
 
-class Regions {
+class States {
 
 	/**
 	 * Get the region options.
