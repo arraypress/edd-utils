@@ -1,10 +1,10 @@
 # Easy Digital Downloads Utilities Library
 
-The EDD Polyfills Library aims to bridge the functionality gap in Easy Digital Downloads (EDD) 3.x by providing
-essential polyfills for various features that are missing or incomplete in the core EDD plugin. Designed to seamlessly
-integrate with EDD's existing architecture, this library introduces a collection of globally available functions that
-adhere closely to EDD's naming conventions and variable declarations, ensuring a familiar and intuitive experience for
-developers.
+A comprehensive collection of helper functions and utility classes designed to streamline Easy Digital Downloads (EDD)
+add-on development by consolidating common functionality for orders, customers, downloads, cart operations, and other
+EDD components into a single, organized package. By providing a standardized set of utilities and abstractions,
+developers can rapidly build EDD add-ons without recreating common functionality, significantly reducing development
+time while ensuring consistency across their projects.
 
 ## Installation
 
