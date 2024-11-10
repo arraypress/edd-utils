@@ -1,0 +1,48 @@
+{
+  "name": "arraypress/edd-utils",
+  "description": "A collection of essential utilities for Easy Digital Downloads (EDD) plugin development, filling gaps in core functionalities to streamline add-on creation.",
+  "type": "library",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/arraypress/edd-utils/",
+  "authors": [
+    {
+      "name": "David Sherlock",
+      "homepage": "https://arraypress.com/"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "arraypress/wp-utils": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ArrayPress\\EDD\\": "src/"
+    },
+    "files": [
+      "src/Utils/Customers.php",
+      "src/Utils/Discounts.php",
+      "src/Utils/Downloads.php",
+      "src/Register/Utils/Admin.php",
+      "src/Register/Utils/Customer.php",
+      "src/Register/Utils/Download.php",
+      "src/Register/Utils/Export.php",
+      "src/Register/Utils/Tools.php"
+    ]
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "support": {
+    "issues": "https://github.com/arraypress/edd-utils/issues",
+    "source": "https://github.com/arraypress/edd-utils"
+  },
+  "keywords": [
+    "easy-digital-downloads",
+    "edd",
+    "utilities",
+    "wordpress"
+  ]
+}
