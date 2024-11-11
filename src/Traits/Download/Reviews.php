@@ -18,15 +18,7 @@ namespace ArrayPress\EDD\Traits\Download;
 use EDD_Download;
 
 trait Reviews {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
+	Use Core;
 
 	/**
 	 * Get reviews for a download.

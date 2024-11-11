@@ -20,24 +20,7 @@ use EDD_Customer;
 use WP_User;
 
 trait Products {
-
-	/**
-	 * Required trait method for getting validated customer.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return EDD_Customer|null
-	 */
-	abstract protected static function get_validated( int $customer_id ): ?EDD_Customer;
-
-	/**
-	 * Required trait method for getting user.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return WP_User|null
-	 */
-	abstract protected static function get_user( int $customer_id ): ?WP_User;
+	use Core;
 
 	/**
 	 * Retrieve the product IDs (and optionally price IDs) of the customer in an array.

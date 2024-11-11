@@ -11,7 +11,7 @@
 
 declare( strict_types=1 );
 
-namespace ArrayPress\EDD\Common;
+namespace ArrayPress\EDD\Misc;
 
 class Format {
 

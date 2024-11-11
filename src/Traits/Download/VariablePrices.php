@@ -19,15 +19,7 @@ use EDD\Utils\ListHandler;
 use EDD_Download;
 
 trait VariablePrices {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
+	Use Core;
 
 	/**
 	 * Get the specified field value from a variable price option.

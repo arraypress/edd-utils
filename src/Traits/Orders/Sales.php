@@ -17,14 +17,6 @@ namespace ArrayPress\EDD\Traits\Orders;
 
 trait Sales {
 
-	/**
-	 * Required trait method for getting EDD Stats instance.
-	 *
-	 * @param array $args Stats arguments
-	 *
-	 * @return \EDD\Stats
-	 */
-	abstract protected static function get_stats( array $args = [] ): \EDD\Stats;
 
 	/**
 	 * Get the total sales from the database or transient.

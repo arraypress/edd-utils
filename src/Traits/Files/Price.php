@@ -16,18 +16,10 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Traits\Files;
 
 use EDD\Utils\ListHandler;
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 
 trait Price {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
 
 	/**
 	 * Retrieve the download file price ID for this variable product.
@@ -38,7 +30,7 @@ trait Price {
 	 * @return int|null File price ID, null if download was not found or has no variable prices.
 	 */
 	public static function get_file_price_id( int $download_id = 0, int $file_key = 0 ): ?int {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -72,7 +64,7 @@ trait Price {
 		string $amount_field = 'amount',
 		string $type = 'min'
 	): ?float {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -156,7 +148,7 @@ trait Price {
 	 * @return int|false Default price ID or false if not found.
 	 */
 	private static function get_default_variable_price( int $download_id ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return false;
 		}

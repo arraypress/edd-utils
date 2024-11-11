@@ -18,15 +18,7 @@ namespace ArrayPress\EDD\Traits\Order;
 use EDD\Orders\Order;
 
 trait Notes {
-
-	/**
-	 * Get and validate an order object.
-	 *
-	 * @param int $order_id Order ID
-	 *
-	 * @return Order|null Order object or null if invalid
-	 */
-	abstract protected static function get_validated( int $order_id = 0 ): ?Order;
+	use Core;
 
 	/**
 	 * Adds a note for a specified order.

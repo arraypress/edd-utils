@@ -16,18 +16,10 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Traits\Files;
 
 use EDD\Utils\ListHandler;
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 
 trait Fields {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
 
 	/**
 	 * Get file ID based on field comparison (highest or lowest).
@@ -39,7 +31,7 @@ trait Fields {
 	 * @return int|null File ID, null if download does not exist or has no files.
 	 */
 	private static function get_file_id_by_field( int $download_id = 0, string $field = '', string $type = 'min' ): ?int {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}

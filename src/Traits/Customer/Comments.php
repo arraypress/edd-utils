@@ -18,15 +18,7 @@ namespace ArrayPress\EDD\Traits\Customer;
 use WP_User;
 
 trait Comments {
-
-	/**
-	 * Required trait method for getting user.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return WP_User|null
-	 */
-	abstract protected static function get_user( int $customer_id ): ?WP_User;
+	use Core;
 
 	/**
 	 * Retrieves all comments for a given customer.

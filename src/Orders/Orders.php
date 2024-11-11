@@ -18,7 +18,8 @@ use ArrayPress\EDD\Traits\Orders\{
 	Core,
 	Distinct,
 	Earnings,
-	Sales
+	Sales,
+	Referral
 };
 
 class Orders {
@@ -27,4 +28,5 @@ class Orders {
 	use Distinct;
 	use Earnings;
 	use Sales;
+	use Referral;
 }

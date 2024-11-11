@@ -16,15 +16,7 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Traits\Orders;
 
 trait Earnings {
-
-	/**
-	 * Required trait method for getting EDD Stats instance.
-	 *
-	 * @param array $args Stats arguments
-	 *
-	 * @return \EDD\Stats
-	 */
-	abstract protected static function get_stats( array $args = [] ): \EDD\Stats;
+	use Core;
 
 	/**
 	 * Get the total store earnings from the database or transient.

@@ -18,25 +18,8 @@ namespace ArrayPress\EDD\Traits\Customer;
 use EDD_Customer;
 
 trait Status {
-
-	/**
-	 * Get and validate a customer object.
-	 *
-	 * @param int $customer_id Customer ID
-	 *
-	 * @return EDD_Customer|null Customer object or null if invalid
-	 */
-	abstract protected static function get_validated( int $customer_id = 0 ): ?EDD_Customer;
-
-	/**
-	 * Get a specific field from the customer.
-	 *
-	 * @param int    $customer_id The customer ID.
-	 * @param string $field       The field name.
-	 *
-	 * @return mixed The field value or null if not found.
-	 */
-	abstract protected static function get_field( int $customer_id, string $field );
+	use Core;
+	use Fields;
 
 	/**
 	 * Valid customer statuses.

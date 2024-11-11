@@ -21,21 +21,25 @@ use ArrayPress\EDD\Traits\Customer\{
 	Notes,
 	Orders,
 	Products,
+	Recurring,
 	Reviews,
-	Status
+	Status,
+	Terms
 };
 use ArrayPress\Utils\Traits\Shared\Meta;
 
 class Customer {
 	use Core;
+	use Fields;
 	use Comments;
 	use Orders;
 	use Products;
 	use Reviews;
+	use Recurring;
 	use Admin;
 	use Status;
-	use Fields;
 	use Notes;
+	use Terms;
 	use Meta;
 
 	/**

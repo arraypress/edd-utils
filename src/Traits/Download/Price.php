@@ -18,14 +18,7 @@ namespace ArrayPress\EDD\Traits\Download;
 use EDD_Download;
 
 trait Price {
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
+	use Core;
 
 	/**
 	 * Get the raw price of a download as a float.

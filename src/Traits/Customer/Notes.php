@@ -18,15 +18,7 @@ namespace ArrayPress\EDD\Traits\Customer;
 use EDD_Customer;
 
 trait Notes {
-
-	/**
-	 * Get and validate a customer object.
-	 *
-	 * @param int $customer_id Customer ID
-	 *
-	 * @return EDD_Customer|null Customer object or null if invalid
-	 */
-	abstract protected static function get_validated( int $customer_id = 0 ): ?EDD_Customer;
+	use Core;
 
 	/**
 	 * Adds a note for a specified customer.

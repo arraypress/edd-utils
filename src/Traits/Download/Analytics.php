@@ -19,15 +19,7 @@ use EDD_Download;
 Use ArrayPress\EDD\Downloads\Downloads;
 
 trait Analytics {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
+	use Core;
 
 	/**
 	 * Check if a product is among the highest earning products.

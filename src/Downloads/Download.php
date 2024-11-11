@@ -19,6 +19,7 @@ namespace ArrayPress\EDD\Downloads;
 use ArrayPress\EDD\Traits\Download\{
 	Analytics,
 	Core,
+	Generate,
 	Licensing,
 	Orders,
 	Price,
@@ -31,6 +32,7 @@ use ArrayPress\Utils\Traits\Shared\Meta;
 class Download {
 	use Analytics;
 	use Core;
+	use Generate;
 	use Licensing;
 	use Orders;
 	use Price;

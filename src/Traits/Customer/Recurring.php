@@ -20,15 +20,7 @@ use EDD_Customer;
 use WP_User;
 
 trait Recurring {
-
-	/**
-	 * Required trait method for getting user.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return WP_User|null
-	 */
-	abstract protected static function get_user( int $customer_id ): ?WP_User;
+	use Core;
 
 	/**
 	 * Checks if the given customer has an active subscription.

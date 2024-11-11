@@ -19,15 +19,7 @@ use EDD_Download;
 use EDD\Database\Queries\Order_Item;
 
 trait Orders {
-
-	/**
-	 * Required trait method for getting validated download.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null
-	 */
-	abstract protected static function get_validated( int $download_id = 0 ): ?EDD_Download;
+	use Core;
 
 	/**
 	 * Get order IDs for purchases of a download.

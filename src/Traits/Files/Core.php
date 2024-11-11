@@ -17,26 +17,10 @@ namespace ArrayPress\EDD\Traits\Files;
 
 use ArrayPress\Utils\Common\File;
 use ArrayPress\Utils\Common\MIME;
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 
 trait Core {
-
-	/**
-	 * Get and validate a download object.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null Download object or null if invalid
-	 */
-	protected static function get_validated( int $download_id = 0 ): ?EDD_Download {
-		if ( empty( $download_id ) ) {
-			$download_id = get_the_ID();
-		}
-
-		$download = edd_get_download( $download_id );
-
-		return ( $download instanceof EDD_Download ) ? $download : null;
-	}
 
 	/**
 	 * Retrieves metadata for a specific file associated with a download product.
@@ -48,7 +32,7 @@ trait Core {
 	 *                            and false if no download ID was passed.
 	 */
 	public static function get_file( int $download_id, int $file_id ): ?string {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -76,7 +60,7 @@ trait Core {
 	 * @return mixed The value of the requested field if it exists, null otherwise.
 	 */
 	public static function get_file_field( int $download_id, int $file_id, string $field ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -105,7 +89,7 @@ trait Core {
 	 * @return string|false The name of the file if available, or false if the download ID is invalid.
 	 */
 	public static function get_file_name( int $download_id, int $file_id ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -134,7 +118,7 @@ trait Core {
 	 * @return string|null The file extension or null if no download ID was passed or file not found.
 	 */
 	public static function get_file_extension( int $download_id = 0, int $file_id = 0 ): ?string {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -163,7 +147,7 @@ trait Core {
 	 *                     determined.
 	 */
 	public static function get_file_type( int $download_id = 0, int $file_id = 0 ): ?string {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}

@@ -14,6 +14,7 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Traits\Downloads;
 
 use ArrayPress\EDD\Downloads\Download;
+use ArrayPress\Utils\Common\Sanitize;
 
 trait Core {
 
@@ -61,4 +62,5 @@ trait Core {
 				);
 		}, 0.00 );
 	}
+
 }

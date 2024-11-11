@@ -19,6 +19,7 @@ use ArrayPress\Utils\Common\Cache;
 use ArrayPress\Utils\Database\Exists;
 use EDD_Customer;
 use WP_User;
+use EDD\Orders\Order;
 
 trait Core {
 
@@ -132,6 +133,27 @@ trait Core {
 		}
 
 		return $user;
+	}
+
+	/** Helper Methods ******************************************************/
+
+	/**
+	 * Get and validate an order object.
+	 *
+	 * @param int $order_id Order ID
+	 *
+	 * @return Order|null Order object or null if invalid
+	 */
+	protected static function get_validated( int $order_id = 0 ): ?Order {
+		// Bail if no order ID was passed
+		if ( empty( $order_id ) ) {
+			return null;
+		}
+
+		$order = edd_get_order( $order_id );
+
+		// Return null if not a valid EDD\Orders\Order object
+		return ( $order instanceof Order ) ? $order : null;
 	}
 
 }

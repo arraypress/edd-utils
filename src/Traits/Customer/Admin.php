@@ -19,15 +19,7 @@ use ArrayPress\Utils\Elements\Element;
 use EDD_Customer;
 
 trait Admin {
-
-	/**
-	 * Required trait method for getting customer data.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return EDD_Customer|null
-	 */
-	abstract protected static function get_validated( int $customer_id ): ?EDD_Customer;
+	Use Core;
 
 	/**
 	 * Retrieve the customer admin URL.

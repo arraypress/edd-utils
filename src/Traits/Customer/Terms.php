@@ -20,25 +20,8 @@ use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
 
 trait Terms {
-
-	/**
-	 * Required trait method for getting validated customer.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return EDD_Customer|null
-	 */
-	abstract protected static function get_validated( int $customer_id ): ?EDD_Customer;
-
-	/**
-	 * Required method for getting product IDs.
-	 *
-	 * @param int   $customer_id The ID of the customer.
-	 * @param array $status      Optional. The statuses to consider.
-	 *
-	 * @return array|null Array of product IDs or null if error.
-	 */
-	abstract protected static function get_product_ids( int $customer_id, array $status = [] ): ?array;
+	use Core;
+	use Products;
 
 	/**
 	 * Retrieve terms associated with a customer's purchased products.

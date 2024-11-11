@@ -19,15 +19,7 @@ use ArrayPress\Utils\Common\Split;
 use EDD_Customer;
 
 trait Fields {
-
-	/**
-	 * Get and validate a customer object.
-	 *
-	 * @param int $customer_id Customer ID
-	 *
-	 * @return EDD_Customer|null Customer object or null if invalid
-	 */
-	abstract protected static function get_validated( int $customer_id = 0 ): ?EDD_Customer;
+	use Core;
 
 	/**
 	 * Get a specific field from the customer.

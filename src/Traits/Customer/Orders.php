@@ -23,15 +23,7 @@ use ArrayPress\Utils\Common\Cache;
 use EDD_Customer;
 
 trait Orders {
-
-	/**
-	 * Required trait method for getting customer data.
-	 *
-	 * @param int $customer_id The customer ID.
-	 *
-	 * @return EDD_Customer|null
-	 */
-	abstract protected static function get_validated( int $customer_id ): ?EDD_Customer;
+	use Core;
 
 	/**
 	 * Retrieve the number of orders made by a customer.
