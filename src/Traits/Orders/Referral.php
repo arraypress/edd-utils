@@ -4,7 +4,7 @@
  *
  * Provides methods for handling AffiliateWP referrals and earnings for EDD orders.
  *
- * @package       ArrayPress\EDD\Orders
+ * @package       ArrayPress\EDD\Downloads
  * @since         1.0.0
  * @author        David Sherlock
  * @copyright     Copyright (c) 2024, ArrayPress Limited

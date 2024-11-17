@@ -1,6 +1,6 @@
 <?php
 /**
- * Downloadable Files Trait for Easy Digital Downloads (EDD) Orders
+ * Downloadable Files Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling downloadable items and their properties.
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * Subscription Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Subscription Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * @package       ArrayPress\EDD\Traits\Order
  * @since         1.0.0

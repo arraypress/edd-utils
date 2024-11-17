@@ -1,8 +1,8 @@
 <?php
 /**
- * Analytics Operations Trait for Easy Digital Downloads (EDD)
+ * Download Statistics for Easy Digital Downloads (EDD)
  *
- * @package       ArrayPress\EDD\Traits\Download
+ * @package       ArrayPress\EDD\Stats
  * @since         1.0.0
  * @author        David Sherlock
  * @copyright     Copyright (c) 2024, ArrayPress Limited
@@ -11,9 +11,9 @@
 
 declare( strict_types=1 );
 
-namespace ArrayPress\EDD\Traits\Downloads;
+namespace ArrayPress\EDD\Stats;
 
-trait Analytics {
+class Downloads {
 
 	/**
 	 * Valid criterion types for product analysis
@@ -41,7 +41,7 @@ trait Analytics {
 		return self::get_products_by_meta( self::$criteria[ $criterion ], $number, 'DESC' );
 	}
 
-		/**
+	/**
 	 * Get the highest earning products.
 	 *
 	 * @param int $number The number of products to retrieve.

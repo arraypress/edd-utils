@@ -1,6 +1,6 @@
 <?php
 /**
- * License Operations Trait for Easy Digital Downloads (EDD) Orders
+ * License Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling EDD Software Licensing operations.
  *

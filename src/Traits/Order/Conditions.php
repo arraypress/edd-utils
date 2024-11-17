@@ -1,6 +1,6 @@
 <?php
 /**
- * Category Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Category Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for determining order types and categories.
  *

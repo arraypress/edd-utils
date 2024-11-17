@@ -131,4 +131,5 @@ class Recount {
 	public static function register( array $tools ): Recount {
 		return new self( $tools );
 	}
+
 }

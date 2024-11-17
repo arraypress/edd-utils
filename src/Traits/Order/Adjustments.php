@@ -1,6 +1,6 @@
 <?php
 /**
- * Discount Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Discount Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling order discounts and adjustments.
  *

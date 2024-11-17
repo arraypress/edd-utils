@@ -1,6 +1,6 @@
 <?php
 /**
- * Option Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Option Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * @package       ArrayPress\EDD\Traits\Order
  * @since         1.0.0

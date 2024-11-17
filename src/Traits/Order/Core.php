@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Core Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides core functionality for order operations.
  *
@@ -152,7 +152,7 @@ trait Core {
 
 		$order = edd_get_order( $order_id );
 
-		// Return null if not a valid EDD\Orders\Order object
+		// Return null if not a valid EDD\Downloads\Order object
 		return ( $order instanceof Order ) ? $order : null;
 	}
 

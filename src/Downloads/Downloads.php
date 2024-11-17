@@ -14,13 +14,11 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Downloads;
 
 use ArrayPress\EDD\Traits\Downloads\{
-	Analytics,
 	Core,
 	Sanitize
 };
 
 class Downloads {
 	use Core;
-	use Analytics;
 	use Sanitize;
 }

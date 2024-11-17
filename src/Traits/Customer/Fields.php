@@ -1,6 +1,6 @@
 <?php
 /**
- * Fields Operations Trait for Easy Digital Downloads (EDD) Customers
+ * Base Operations Trait for Easy Digital Downloads (EDD) Customers
  *
  * This trait provides field access methods for customer data.
  *

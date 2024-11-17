@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Core Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides core functionality for order operations.
  *

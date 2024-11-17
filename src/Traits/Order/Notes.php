@@ -1,6 +1,6 @@
 <?php
 /**
- * Notes Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Notes Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * This trait provides note-related operations for order records.
  *

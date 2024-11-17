@@ -19,9 +19,6 @@
       "ArrayPress\\EDD\\": "src/"
     },
     "files": [
-      "src/Utils/Customers.php",
-      "src/Utils/Discounts.php",
-      "src/Utils/Downloads.php",
       "src/Register/Utils/Admin.php",
       "src/Register/Utils/Customer.php",
       "src/Register/Utils/Download.php",

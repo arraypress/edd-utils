@@ -1,6 +1,6 @@
 <?php
 /**
- * Commission Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Commission Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling EDD Commissions functionality.
  *

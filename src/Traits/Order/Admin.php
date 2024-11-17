@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Admin Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling admin URLs, links, and other admin-related functionality.
  *

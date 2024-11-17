@@ -14,19 +14,9 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Orders;
 
 use ArrayPress\EDD\Traits\Orders\{
-	Analytics,
-	Core,
-	Distinct,
-	Earnings,
-	Sales,
 	Referral
 };
 
 class Orders {
-	use Core;
-	use Analytics;
-	use Distinct;
-	use Earnings;
-	use Sales;
 	use Referral;
 }

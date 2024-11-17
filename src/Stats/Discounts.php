@@ -1,17 +1,17 @@
 <?php
 /**
- * Log Utilities for Easy Digital Downloads (EDD)
+ * Discount Statistics for Easy Digital Downloads (EDD)
  *
- * @package       ArrayPress/EDD-Utils
- * @copyright     Copyright 2024, ArrayPress Limited
- * @license       GPL-2.0-or-later
- * @version       1.0.0
+ * @package       ArrayPress\EDD\Stats
+ * @since         1.0.0
  * @author        David Sherlock
+ * @copyright     Copyright (c) 2024, ArrayPress Limited
+ * @license       GPL-2.0-or-later
  */
 
 declare( strict_types=1 );
 
-namespace ArrayPress\EDD\Discounts;
+namespace ArrayPress\EDD\Stats;
 
 use ArrayPress\EDD\Date\Generate;
 use EDD\Stats;

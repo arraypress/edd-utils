@@ -1,6 +1,6 @@
 <?php
 /**
- * Item Operations Trait for Easy Digital Downloads (EDD) Orders
+ * Item Operations Trait for Easy Digital Downloads (EDD) Downloads
  *
  * Provides methods for handling order items and their properties.
  *

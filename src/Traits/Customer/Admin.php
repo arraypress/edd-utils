@@ -128,7 +128,7 @@ trait Admin {
 	 *
 	 * @return string HTML link to the customer admin orders, or mdash if not available.
 	 */
-	public static function get_admin_orders_link( int $customer_id, string $label = 'View Orders' ): ?string {
+	public static function get_admin_orders_link( int $customer_id, string $label = 'View Downloads' ): ?string {
 		$url = self::get_admin_orders_url( $customer_id );
 		if ( ! $url || empty( $label ) ) {
 			return null;
