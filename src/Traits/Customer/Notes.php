@@ -21,6 +21,17 @@ trait Notes {
 	use Core;
 
 	/**
+	 * Check if a customer has any notes.
+	 *
+	 * @param int $customer_id The ID of the customer.
+	 *
+	 * @return bool True if the customer has notes, false otherwise.
+	 */
+	public static function has_notes( int $customer_id ): bool {
+		return self::get_notes_count( $customer_id ) > 0;
+	}
+
+	/**
 	 * Adds a note for a specified customer.
 	 *
 	 * @param int    $customer_id The customer's ID to whom the note will be added.
@@ -136,17 +147,6 @@ trait Notes {
 		}
 
 		return $success;
-	}
-
-	/**
-	 * Check if a customer has any notes.
-	 *
-	 * @param int $customer_id The ID of the customer.
-	 *
-	 * @return bool True if the customer has notes, false otherwise.
-	 */
-	public static function has_notes( int $customer_id ): bool {
-		return self::get_notes_count( $customer_id ) > 0;
 	}
 
 }

@@ -17,7 +17,7 @@ namespace ArrayPress\EDD\Traits\Order;
 
 use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
-trait Terms {
+trait Taxonomy {
 
 	/**
 	 * Get default order items query arguments.

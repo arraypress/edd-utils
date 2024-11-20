@@ -18,6 +18,15 @@ namespace ArrayPress\EDD\Traits\Cart;
 trait Discounts {
 
 	/**
+	 * Get all discount IDs in the cart.
+	 *
+	 * @return array Array of discount IDs.
+	 */
+	public static function get_discount_ids(): array {
+		return self::get_discounts( false );
+	}
+
+	/**
 	 * Retrieve all discounts in the cart.
 	 *
 	 * @param bool $return_objects Whether to return discount objects or IDs.

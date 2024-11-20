@@ -84,4 +84,76 @@ trait Reviews {
 		return absint( $review_count );
 	}
 
+	/**
+	 * Get the average rating for a customer's reviews.
+	 *
+	 * @param int $customer_id The customer ID to lookup.
+	 *
+	 * @return float|null The average rating or null if invalid customer.
+	 */
+	public static function get_average_rating( int $customer_id ): ?float {
+		if ( empty( $customer_id ) ) {
+			return null;
+		}
+
+		$user = self::get_user( $customer_id );
+		if ( empty( $user ) ) {
+			return null;
+		}
+
+		$reviews = get_comments( [
+			'user_id' => $user->ID,
+			'status'  => 'approve',
+			'type'    => 'edd_review'
+		] );
+
+		if ( empty( $reviews ) ) {
+			return 0.0;
+		}
+
+		$total = 0;
+		foreach ( $reviews as $review ) {
+			$rating = get_comment_meta( $review->comment_ID, 'rating', true );
+			$total  += (float) $rating;
+		}
+
+		return round( $total / count( $reviews ), 2 );
+	}
+
+	/**
+	 * Get all review ratings indexed by post ID.
+	 *
+	 * @param int $customer_id The customer ID to lookup.
+	 *
+	 * @return array|null Array of post_id => rating or null if invalid customer.
+	 */
+	public static function get_review_ratings_by_post( int $customer_id ): ?array {
+		if ( empty( $customer_id ) ) {
+			return null;
+		}
+
+		$user = self::get_user( $customer_id );
+		if ( empty( $user ) ) {
+			return null;
+		}
+
+		$reviews = get_comments( [
+			'user_id' => $user->ID,
+			'status'  => 'approve',
+			'type'    => 'edd_review'
+		] );
+
+		if ( empty( $reviews ) ) {
+			return [];
+		}
+
+		$ratings = [];
+		foreach ( $reviews as $review ) {
+			$rating                              = get_comment_meta( $review->comment_ID, 'rating', true );
+			$ratings[ $review->comment_post_ID ] = (float) $rating;
+		}
+
+		return $ratings;
+	}
+
 }

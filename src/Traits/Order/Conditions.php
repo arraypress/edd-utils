@@ -41,7 +41,7 @@ trait Conditions {
 			return false;
 		}
 
-		return 0 == $order->total;
+		return empty( $order->total );
 	}
 
 	/**

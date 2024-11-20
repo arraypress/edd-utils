@@ -19,7 +19,7 @@ use EDD_Customer;
 use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
 
-trait Terms {
+trait Taxonomy {
 	use Core;
 	use Products;
 

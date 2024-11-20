@@ -11,7 +11,7 @@
 
 declare( strict_types=1 );
 
-namespace ArrayPress\EDD\Extensions;
+namespace ArrayPress\EDD\Common;
 
 class Extensions {
 

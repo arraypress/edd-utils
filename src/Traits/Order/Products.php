@@ -163,11 +163,12 @@ trait Products {
 	/**
 	 * Retrieve an array of product IDs from an order.
 	 *
-	 * @param int $order_id The order ID.
+	 * @param int  $order_id          The order ID.
+	 * @param bool $include_price_ids Whether to include price IDs in the returned array.
 	 *
 	 * @return array|null Array of product IDs or null if none found.
 	 */
-	public static function get_product_ids( int $order_id ): ?array {
+	public static function get_product_ids( int $order_id, bool $include_price_ids = true ): ?array {
 		if ( ! $order_id ) {
 			return null;
 		}
@@ -185,47 +186,12 @@ trait Products {
 			return null;
 		}
 
-		$product_ids = array_map( function ( $order_item ) {
+		$product_ids = array_map( function ( $order_item ) use ( $include_price_ids ) {
+			if ( $include_price_ids && ! is_null( $order_item->price_id ) ) {
+				return $order_item->product_id . '_' . $order_item->price_id;
+			}
 			return $order_item->product_id;
 		}, $order_items );
-
-		return array_unique( $product_ids ) ?: null;
-	}
-
-	/**
-	 * Retrieve a flat array with unique concatenated product IDs and price IDs.
-	 *
-	 * @param int $order_id The order ID.
-	 *
-	 * @return array|null The flat array of unique concatenated product IDs and price IDs.
-	 */
-	public static function get_product_ids_concatenated( int $order_id ): ?array {
-		if ( ! $order_id ) {
-			return null;
-		}
-
-		$order_items = edd_get_order_items( [
-			'order_id'      => $order_id,
-			'orderby'       => 'cart_index',
-			'order'         => 'ASC',
-			'no_found_rows' => true,
-			'status__in'    => edd_get_deliverable_order_item_statuses(),
-			'number'        => 999999,
-		] );
-
-		if ( ! $order_items ) {
-			return null;
-		}
-
-		$product_ids = [];
-
-		foreach ( $order_items as $order_item ) {
-			$concatenated_id = (string) $order_item->product_id;
-			if ( ! is_null( $order_item->price_id ) ) {
-				$concatenated_id .= '_' . $order_item->price_id;
-			}
-			$product_ids[] = $concatenated_id;
-		}
 
 		return array_unique( $product_ids ) ?: null;
 	}

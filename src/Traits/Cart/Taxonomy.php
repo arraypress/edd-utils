@@ -17,7 +17,7 @@ namespace ArrayPress\EDD\Traits\Cart;
 
 use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
-trait Terms {
+trait Taxonomy {
 
 	/**
 	 * Retrieve the unique terms for items in the cart, allowing passing in a taxonomy.

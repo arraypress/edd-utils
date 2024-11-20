@@ -24,7 +24,7 @@ use ArrayPress\EDD\Traits\Customer\{
 	Recurring,
 	Reviews,
 	Status,
-	Terms
+	Taxonomy
 };
 use ArrayPress\Utils\Traits\Shared\Meta;
 
@@ -39,7 +39,7 @@ class Customer {
 	use Admin;
 	use Status;
 	use Notes;
-	use Terms;
+	use Taxonomy;
 	use Meta;
 
 	/**

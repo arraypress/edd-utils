@@ -23,11 +23,11 @@ use ArrayPress\EDD\Traits\Order\{
 	Discounts,
 	Fields,
 	Licensing,
+	Notes,
 	Products,
 	Recurring,
 	Referral,
-	Options,
-	Terms,
+	Taxonomy,
 	Files
 };
 
@@ -42,12 +42,12 @@ class Order {
 	use Conditions;
 	use Discounts;
 	use Fields;
+	use Notes;
 	use Licensing;
 	use Products;
 	use Recurring;
 	use Referral;
-	use Options;
-	use Terms;
+	use Taxonomy;
 	use Files;
 	use Meta;
 
