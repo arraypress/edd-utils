@@ -39,7 +39,7 @@ trait Taxonomy {
 		}
 
 		foreach ( $cart_items as $cart_item ) {
-			$product_id    = $cart_item['id'];
+			$product_id    = absint( $cart_item['id'] );
 			$product_terms = get_the_terms( $product_id, $taxonomy );
 			if ( $product_terms && ! is_wp_error( $product_terms ) ) {
 				$terms = array_merge( $terms, $product_terms );

@@ -62,7 +62,7 @@ trait Products {
 		}
 
 		foreach ( $cart_items as $item ) {
-			if ( $item['id'] === $product_id ) {
+			if ( absint( $item['id'] ) === $product_id ) {
 				// If price_id is not specified, we've found a match
 				if ( $price_id === null ) {
 					return true;
