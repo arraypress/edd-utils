@@ -46,7 +46,7 @@ class Commissions {
 	 *
 	 * @return float Total commission earnings.
 	 */
-	public static function get_earnings( array $args = array(), ?string $period = 'this_month' ): float {
+	public static function get_earnings( array $args = array(), ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -64,7 +64,7 @@ class Commissions {
 	 *
 	 * @return int Number of commissions.
 	 */
-	public static function get_count( array $args = array(), ?string $period = 'this_month' ): int {
+	public static function get_count( array $args = array(), ?string $period = 'all_time' ): int {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0;
 		}
@@ -83,7 +83,7 @@ class Commissions {
 	 *
 	 * @return float Average commission amount.
 	 */
-	public static function get_average( array $args = array(), ?string $period = 'this_month' ): float {
+	public static function get_average( array $args = array(), ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -101,7 +101,7 @@ class Commissions {
 	 *
 	 * @return float Average commission per vendor.
 	 */
-	public static function get_vendor_average( array $args = array(), ?string $period = 'this_month' ): float {
+	public static function get_vendor_average( array $args = array(), ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -109,6 +109,45 @@ class Commissions {
 		$query_args = self::parse_args( $args, $period );
 
 		return (float) edd_commissions()->commissions_db->avg( 'amount', $query_args, 'user_id' );
+	}
+
+	/**
+	 * Get top earning users by commission amounts.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of users to return. Default 10.
+	 *
+	 * @return array Array of user IDs and their earnings.
+	 */
+	public static function get_top_earners( array $args = array(), ?string $period = 'all_time', int $limit = 10 ): array {
+		if ( ! function_exists( 'edd_commissions' ) ) {
+			return array();
+		}
+
+		$query_args = self::parse_args( $args, $period );
+
+		// Get sum grouped by user_id
+		$results = edd_commissions()->commissions_db->sum_group(
+			'amount',
+			$query_args
+		);
+
+		// Sort by earnings (second column in results)
+		usort( $results, function ( $a, $b ) {
+			return $b[0] <=> $a[0];
+		} );
+
+		// Limit and format results
+		$top_earners = array();
+		foreach ( array_slice( $results, 0, $limit ) as $result ) {
+			$top_earners[] = array(
+				'user_id'  => (int) $result[1],
+				'earnings' => (float) $result[0]
+			);
+		}
+
+		return $top_earners;
 	}
 
 	/**
