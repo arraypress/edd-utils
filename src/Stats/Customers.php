@@ -201,4 +201,27 @@ class Customers {
 		return $total_ips / $customer_count;
 	}
 
+	/**
+	 * Get the average age of customers in days based on their creation date.
+	 *
+	 * @return float The average age of customers in days.
+	 */
+	public static function get_average_age(): float {
+		global $wpdb;
+
+		$sql_query = "
+            SELECT AVG(DATEDIFF(CURRENT_DATE, date_created)) as avg_age
+            FROM {$wpdb->prefix}edd_customers
+            WHERE date_created IS NOT NULL
+        ";
+
+		$result = $wpdb->get_var( $sql_query );
+
+		if ( is_null( $result ) ) {
+			return 0.0;
+		}
+
+		return (float) $result;
+	}
+
 }
