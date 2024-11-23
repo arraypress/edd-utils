@@ -46,7 +46,7 @@ class Commissions {
 	 *
 	 * @return float Total commission earnings.
 	 */
-	public static function get_earnings( array $args = array(), ?string $period = 'all_time' ): float {
+	public static function get_earnings( array $args = [], ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -64,7 +64,7 @@ class Commissions {
 	 *
 	 * @return int Number of commissions.
 	 */
-	public static function get_count( array $args = array(), ?string $period = 'all_time' ): int {
+	public static function get_count( array $args = [], ?string $period = 'all_time' ): int {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0;
 		}
@@ -83,7 +83,7 @@ class Commissions {
 	 *
 	 * @return float Average commission amount.
 	 */
-	public static function get_average( array $args = array(), ?string $period = 'all_time' ): float {
+	public static function get_average( array $args = [], ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -101,7 +101,7 @@ class Commissions {
 	 *
 	 * @return float Average commission per vendor.
 	 */
-	public static function get_vendor_average( array $args = array(), ?string $period = 'all_time' ): float {
+	public static function get_vendor_average( array $args = [], ?string $period = 'all_time' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
@@ -120,9 +120,9 @@ class Commissions {
 	 *
 	 * @return array Array of user IDs and their earnings.
 	 */
-	public static function get_top_earners( array $args = array(), ?string $period = 'all_time', int $limit = 10 ): array {
+	public static function get_top_earners( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
 		if ( ! function_exists( 'edd_commissions' ) ) {
-			return array();
+			return [];
 		}
 
 		$query_args = self::parse_args( $args, $period );
@@ -139,15 +139,194 @@ class Commissions {
 		} );
 
 		// Limit and format results
-		$top_earners = array();
+		$top_earners = [];
 		foreach ( array_slice( $results, 0, $limit ) as $result ) {
-			$top_earners[] = array(
+			$top_earners[] = [
 				'user_id'  => (int) $result[1],
 				'earnings' => (float) $result[0]
-			);
+			];
 		}
 
 		return $top_earners;
+	}
+
+	/**
+	 * Get user IDs of top earners.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of users to return. Default 10.
+	 *
+	 * @return array Array of user IDs.
+	 */
+	public static function get_top_earner_ids( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		return array_column( self::get_top_earners( $args, $period, $limit ), 'user_id' );
+	}
+
+	/**
+	 * Get top selling users by commission count.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of users to return. Default 10.
+	 *
+	 * @return array Array of user IDs and their sales count.
+	 */
+	public static function get_top_sellers( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		if ( ! function_exists( 'edd_commissions' ) ) {
+			return [];
+		}
+
+		$query_args = self::parse_args( $args, $period );
+
+		// Get count grouped by user_id
+		$results = edd_commissions()->commissions_db->count_group(
+			$query_args
+		);
+
+		// Sort by count (first column in results)
+		usort( $results, function ( $a, $b ) {
+			return $b[0] <=> $a[0];
+		} );
+
+		// Limit and format results
+		$top_sellers = [];
+		foreach ( array_slice( $results, 0, $limit ) as $result ) {
+			$top_sellers[] = [
+				'user_id' => (int) $result[1],
+				'count'   => (int) $result[0]
+			];
+		}
+
+		return $top_sellers;
+	}
+
+	/**
+	 * Get user IDs of top sellers.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of users to return. Default 10.
+	 *
+	 * @return array Array of user IDs.
+	 */
+	public static function get_top_seller_ids( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		return array_column( self::get_top_sellers( $args, $period, $limit ), 'user_id' );
+	}
+
+	/**
+	 * Get top products by commission amounts.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of products to return. Default 10.
+	 *
+	 * @return array Array of product IDs, titles and their commission amounts.
+	 */
+	public static function get_top_products( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		if ( ! function_exists( 'edd_commissions' ) ) {
+			return [];
+		}
+
+		$query_args = self::parse_args( $args, $period );
+
+		// Get sum grouped by download_id
+		$results = edd_commissions()->commissions_db->sum_group(
+			'amount',
+			$query_args,
+			'download_id',
+			'download_id'
+		);
+
+		// Sort by commission amounts
+		usort( $results, function ( $a, $b ) {
+			return $b[0] <=> $a[0];
+		} );
+
+		// Limit and format results
+		$top_products = [];
+		foreach ( array_slice( $results, 0, $limit ) as $result ) {
+			$product_id = (int) $result[1];
+			$download   = edd_get_download( $product_id );
+
+			$top_products[] = [
+				'product_id' => $product_id,
+				'title'      => $download ? $download->get_name() : '',
+				'amount'     => (float) $result[0]
+			];
+		}
+
+		return $top_products;
+	}
+
+	/**
+	 * Get product IDs with highest commission amounts.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of products to return. Default 10.
+	 *
+	 * @return array Array of product IDs.
+	 */
+	public static function get_top_product_ids( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		return array_column( self::get_top_products( $args, $period, $limit ), 'product_id' );
+	}
+
+	/**
+	 * Get top products by commission count.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of products to return. Default 10.
+	 *
+	 * @return array Array of product IDs, titles and their commission counts.
+	 */
+	public static function get_top_selling_products( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		if ( ! function_exists( 'edd_commissions' ) ) {
+			return [];
+		}
+
+		$query_args = self::parse_args( $args, $period );
+
+		// Get count grouped by download_id
+		$results = edd_commissions()->commissions_db->count_group(
+			$query_args,
+			'download_id',
+			'download_id'
+		);
+
+		// Sort by count
+		usort( $results, function ( $a, $b ) {
+			return $b[0] <=> $a[0];
+		} );
+
+		// Limit and format results
+		$top_selling = [];
+		foreach ( array_slice( $results, 0, $limit ) as $result ) {
+			$product_id = (int) $result[1];
+			$download   = edd_get_download( $product_id );
+
+			$top_selling[] = [
+				'product_id' => $product_id,
+				'title'      => $download ? $download->get_name() : '',
+				'count'      => (int) $result[0]
+			];
+		}
+
+		return $top_selling;
+	}
+
+	/**
+	 * Get product IDs with highest commission count.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
+	 * @param int         $limit  Optional. Number of products to return. Default 10.
+	 *
+	 * @return array Array of product IDs.
+	 */
+	public static function get_top_selling_product_ids( array $args = [], ?string $period = 'all_time', int $limit = 10 ): array {
+		return array_column( self::get_top_selling_products( $args, $period, $limit ), 'product_id' );
 	}
 
 	/**
