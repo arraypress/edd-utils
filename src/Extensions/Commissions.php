@@ -19,113 +19,130 @@ require_once EDD_PLUGIN_DIR . 'includes/reports/reports-functions.php';
 class Commissions {
 
 	/**
-	 * Get total commission earnings for a date range.
+	 * Valid time periods for date filtering
 	 *
-	 * @param string $range Date range (today, this_month, last_month, etc)
-	 * @param array  $args  Optional. Additional query arguments.
+	 * @var array
+	 */
+	private static array $periods = [
+		'all_time',
+		'today',
+		'yesterday',
+		'this_week',
+		'last_week',
+		'last_30_days',
+		'this_month',
+		'last_month',
+		'this_quarter',
+		'last_quarter',
+		'this_year',
+		'last_year'
+	];
+
+	/**
+	 * Get total commission earnings.
+	 *
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
 	 *
 	 * @return float Total commission earnings.
 	 */
-	public static function get_earnings( string $range = 'this_month', array $args = array() ): float {
+	public static function get_earnings( array $args = array(), ?string $period = 'this_month' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
 
-		$dates = \EDD\Reports\parse_dates_for_range( $range );
-
-		$query_args = array(
-			'date' => array(
-				'start' => $dates['start']->copy()->format( 'mysql' ),
-				'end'   => $dates['end']->copy()->format( 'mysql' ),
-			)
-		);
-
-		$query_args = wp_parse_args( $args, $query_args );
+		$query_args = self::parse_args( $args, $period );
 
 		return (float) edd_commissions()->commissions_db->sum( 'amount', $query_args );
 	}
 
 	/**
-	 * Get commission count for a date range.
+	 * Get commission count.
 	 *
-	 * @param string $range Date range (today, this_month, last_month, etc)
-	 * @param array  $args  Optional. Additional query arguments.
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
 	 *
 	 * @return int Number of commissions.
 	 */
-	public static function get_count( string $range = 'this_month', array $args = array() ): int {
+	public static function get_count( array $args = array(), ?string $period = 'this_month' ): int {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0;
 		}
 
-		$dates = \EDD\Reports\parse_dates_for_range( $range );
-
-		$query_args = array(
-			'count'      => true,
-			'date_query' => array(
-				'after'     => $dates['start']->copy()->format( 'mysql' ),
-				'before'    => $dates['end']->copy()->format( 'mysql' ),
-				'inclusive' => true,
-			)
-		);
-
-		$query_args = wp_parse_args( $args, $query_args );
+		$query_args          = self::parse_args( $args, $period );
+		$query_args['count'] = true;
 
 		return (int) eddc_get_commissions( $query_args );
 	}
 
 	/**
-	 * Get average commission amount for a date range.
+	 * Get average commission amount.
 	 *
-	 * @param string $range Date range (today, this_month, last_month, etc)
-	 * @param array  $args  Optional. Additional query arguments.
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
 	 *
 	 * @return float Average commission amount.
 	 */
-	public static function get_average( string $range = 'this_month', array $args = array() ): float {
+	public static function get_average( array $args = array(), ?string $period = 'this_month' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
 
-		$dates = \EDD\Reports\parse_dates_for_range( $range );
-
-		$query_args = array(
-			'date' => array(
-				'start' => $dates['start']->copy()->format( 'mysql' ),
-				'end'   => $dates['end']->copy()->format( 'mysql' ),
-			)
-		);
-
-		$query_args = wp_parse_args( $args, $query_args );
+		$query_args = self::parse_args( $args, $period );
 
 		return (float) edd_commissions()->commissions_db->avg( 'amount', $query_args );
 	}
 
 	/**
-	 * Get average commission per vendor for a date range.
+	 * Get average commission per vendor.
 	 *
-	 * @param string $range Date range (today, this_month, last_month, etc)
-	 * @param array  $args  Optional. Additional query arguments.
+	 * @param array       $args   Optional. Query arguments.
+	 * @param string|null $period Optional. Date range period.
 	 *
 	 * @return float Average commission per vendor.
 	 */
-	public static function get_vendor_average( string $range = 'this_month', array $args = array() ): float {
+	public static function get_vendor_average( array $args = array(), ?string $period = 'this_month' ): float {
 		if ( ! function_exists( 'edd_commissions' ) ) {
 			return 0.0;
 		}
 
-		$dates = \EDD\Reports\parse_dates_for_range( $range );
+		$query_args = self::parse_args( $args, $period );
 
-		$query_args = array(
+		return (float) edd_commissions()->commissions_db->avg( 'amount', $query_args, 'user_id' );
+	}
+
+	/**
+	 * Parse and merge query arguments with date period if applicable.
+	 *
+	 * @param array       $args   Query arguments.
+	 * @param string|null $period Date range period.
+	 *
+	 * @return array Parsed query arguments.
+	 */
+	private static function parse_args( array $args, ?string $period ): array {
+		if ( null === $period || 'all_time' === $period || ! in_array( $period, self::$periods, true ) ) {
+			return $args;
+		}
+
+		$dates = \EDD\Reports\parse_dates_for_range( $period );
+
+		$date_args = array(
 			'date' => array(
 				'start' => $dates['start']->copy()->format( 'mysql' ),
 				'end'   => $dates['end']->copy()->format( 'mysql' ),
 			)
 		);
 
-		$query_args = wp_parse_args( $args, $query_args );
+		return wp_parse_args( $args, $date_args );
+	}
 
-		return (float) edd_commissions()->commissions_db->avg( 'amount', $query_args, 'user_id' );
+	/**
+	 * Get valid time periods.
+	 *
+	 * @return array Array of valid time periods.
+	 */
+	public static function get_periods(): array {
+		return self::$periods;
 	}
 
 }
