@@ -190,6 +190,7 @@ trait Products {
 			if ( $include_price_ids && ! is_null( $order_item->price_id ) ) {
 				return $order_item->product_id . '_' . $order_item->price_id;
 			}
+
 			return $order_item->product_id;
 		}, $order_items );
 
@@ -248,6 +249,58 @@ trait Products {
 		}
 
 		return $earnings;
+	}
+
+	/**
+	 * Get the average age of all products in the order based on their publish dates.
+	 *
+	 * @param int $order_id The order ID.
+	 *
+	 * @return int|null Average age in seconds, or null if order is empty or no valid dates found
+	 */
+	public static function get_products_average_age( int $order_id ): ?int {
+		if ( ! $order_id ) {
+			return null;
+		}
+
+		$order_items = edd_get_order_items( [
+			'order_id'   => $order_id,
+			'status__in' => edd_get_deliverable_order_item_statuses(),
+			'number'     => 99999,
+		] );
+
+		if ( ! $order_items ) {
+			return null;
+		}
+
+		$total_age    = 0;
+		$valid_items  = 0;
+		$current_time = current_time( 'timestamp' );
+
+		foreach ( $order_items as $order_item ) {
+			$post_date = get_post_field( 'post_date', $order_item->product_id );
+
+			if ( empty( $post_date ) ) {
+				continue;
+			}
+
+			$post_timestamp = strtotime( $post_date );
+
+			if ( $post_timestamp === false ) {
+				continue;
+			}
+
+			$total_age += ( $current_time - $post_timestamp );
+			$valid_items ++;
+		}
+
+		// Return null if no valid items found
+		if ( $valid_items === 0 ) {
+			return null;
+		}
+
+		// Return average age in seconds
+		return (int) ( $total_age / $valid_items );
 	}
 
 }

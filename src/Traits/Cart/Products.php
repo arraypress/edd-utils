@@ -47,6 +47,54 @@ trait Products {
 	}
 
 	/**
+	 * Get the average age of all products in the cart based on their publish dates.
+	 *
+	 * @return int|null Average age in seconds, or null if cart is empty or no valid dates found
+	 */
+	public static function get_products_average_age(): ?int {
+		$cart_items = edd_get_cart_contents();
+
+		if ( empty( $cart_items ) ) {
+			return null;
+		}
+
+		$total_age    = 0;
+		$valid_items  = 0;
+		$current_time = current_time( 'timestamp' );
+
+		foreach ( $cart_items as $item ) {
+			$product_id = $item['id'] ?? null;
+
+			if ( ! $product_id ) {
+				continue;
+			}
+
+			$post_date = get_post_field( 'post_date', $product_id );
+
+			if ( empty( $post_date ) ) {
+				continue;
+			}
+
+			$post_timestamp = strtotime( $post_date );
+
+			if ( $post_timestamp === false ) {
+				continue;
+			}
+
+			$total_age += ( $current_time - $post_timestamp );
+			$valid_items ++;
+		}
+
+		// Return null if no valid items found
+		if ( $valid_items === 0 ) {
+			return null;
+		}
+
+		// Return average age in seconds
+		return (int) ( $total_age / $valid_items );
+	}
+
+	/**
 	 * Check if a specific product ID is in the cart, optionally checking for a specific price ID.
 	 *
 	 * @param int      $product_id The product ID to check for.
