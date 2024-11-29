@@ -23,7 +23,7 @@ trait Discounts {
 	 * @return array Array of discount IDs.
 	 */
 	public static function get_discount_ids(): array {
-		return self::get_discounts( false );
+		return self::get_discounts();
 	}
 
 	/**
