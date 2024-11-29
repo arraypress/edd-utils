@@ -99,7 +99,7 @@ trait ProductType {
 	 *
 	 * @return int The count of license products in the cart.
 	 */
-	public function get_licensing_count(): int {
+	public static function get_licensing_count(): int {
 		if ( ! class_exists( 'EDD_Software_Licensing' ) ) {
 			return 0;
 		}
@@ -127,7 +127,7 @@ trait ProductType {
 	 *
 	 * @return int The count of license renewals in the cart.
 	 */
-	public function get_license_renewal_count(): int {
+	public static function get_license_renewal_count(): int {
 		if ( ! class_exists( 'EDD_Software_Licensing' ) ) {
 			return 0;
 		}
