@@ -22,12 +22,14 @@ class Calc {
 	 * Valid period types and their variations
 	 */
 	private const PERIOD_TYPES = [
-		'hour'    => [ 'h', 'hour', 'hours', 'hr', 'hrs' ],
-		'day'     => [ 'd', 'day', 'days' ],
-		'week'    => [ 'w', 'week', 'weeks', 'wk', 'wks' ],
-		'month'   => [ 'm', 'month', 'months', 'mo', 'mos' ],
-		'quarter' => [ 'q', 'quarter', 'quarters', 'qtr', 'qtrs' ],
-		'year'    => [ 'y', 'year', 'years', 'yr', 'yrs' ]
+		'second'  => ['s', 'sec', 'secs', 'second', 'seconds'],
+		'minute'  => ['min', 'mins', 'minute', 'minutes'],
+		'hour'    => ['h', 'hour', 'hours', 'hr', 'hrs'],
+		'day'     => ['d', 'day', 'days'],
+		'week'    => ['w', 'week', 'weeks', 'wk', 'wks'],
+		'month'   => ['m', 'month', 'months', 'mo', 'mos'],
+		'quarter' => ['q', 'quarter', 'quarters', 'qtr', 'qtrs'],
+		'year'    => ['y', 'year', 'years', 'yr', 'yrs']
 	];
 
 	/**
