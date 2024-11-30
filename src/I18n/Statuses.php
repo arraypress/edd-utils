@@ -121,4 +121,38 @@ class Statuses {
 		return apply_filters( 'arraypress_customer_statuses', $statuses );
 	}
 
+	/**
+	 * Get available subscription periods.
+	 */
+	public static function get_subscription_periods(): array {
+		$periods = [
+			[
+				'label' => esc_html__( 'Daily', 'arraypress' ),
+				'value' => 'day'
+			],
+			[
+				'label' => esc_html__( 'Weekly', 'arraypress' ),
+				'value' => 'week'
+			],
+			[
+				'label' => esc_html__( 'Monthly', 'arraypress' ),
+				'value' => 'month'
+			],
+			[
+				'label' => esc_html__( 'Quarterly', 'arraypress' ),
+				'value' => 'quarter'
+			],
+			[
+				'label' => esc_html__( 'Semi-Annually', 'arraypress' ),
+				'value' => 'semi-year'
+			],
+			[
+				'label' => esc_html__( 'Annually', 'arraypress' ),
+				'value' => 'year'
+			]
+		];
+
+		return apply_filters( 'arraypress_subscription_periods', $periods );
+	}
+
 }
