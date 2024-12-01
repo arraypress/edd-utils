@@ -90,7 +90,7 @@ trait Sales {
 	 *
 	 * @return array Array of stats for all periods.
 	 */
-	public static function process_stats( int $product_id, ?int $price_id = null, array $args = [] ): array {
+	public static function process_sales_stats( int $product_id, ?int $price_id = null, array $args = [] ): array {
 		if ( empty( $product_id ) ) {
 			return [];
 		}
@@ -128,7 +128,7 @@ trait Sales {
 	 *
 	 * @return array Array of cached stats
 	 */
-	public static function get_cached_stats( int $product_id, ?int $price_id = null, ?string $period = null, bool $force = false ): array {
+	public static function get_cached_sales_stats( int $product_id, ?int $price_id = null, ?string $period = null, bool $force = false ): array {
 		if ( empty( $product_id ) ) {
 			return [];
 		}
@@ -143,7 +143,7 @@ trait Sales {
 
 		// If no stats exist, force is true, or stats are older than 24 hours, regenerate them
 		if ( empty( $stats ) || $force || ! isset( $stats['all_time']['generated'] ) || ( time() - $stats['all_time']['generated'] ) > DAY_IN_SECONDS ) {
-			$stats = self::process_stats( $product_id, $price_id );
+			$stats = self::process_sales_stats( $product_id, $price_id );
 		}
 
 		// Return specific period if requested
@@ -162,7 +162,7 @@ trait Sales {
 	 *
 	 * @return bool Whether the meta was successfully deleted.
 	 */
-	public static function clear_cached_stats( int $product_id, ?int $price_id = null ): bool {
+	public static function clear_cached_sales_stats( int $product_id, ?int $price_id = null ): bool {
 		if ( empty( $product_id ) ) {
 			return false;
 		}
