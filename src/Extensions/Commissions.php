@@ -16,27 +16,10 @@ namespace ArrayPress\EDD\Extensions;
 // Include required files
 require_once EDD_PLUGIN_DIR . 'includes/reports/reports-functions.php';
 
-class Commissions {
+use ArrayPress\EDD\Stats\Dates;
 
-	/**
-	 * Valid time periods for date filtering
-	 *
-	 * @var array
-	 */
-	private static array $periods = [
-		'all_time',
-		'today',
-		'yesterday',
-		'this_week',
-		'last_week',
-		'last_30_days',
-		'this_month',
-		'last_month',
-		'this_quarter',
-		'last_quarter',
-		'this_year',
-		'last_year'
-	];
+
+class Commissions {
 
 	/**
 	 * Get total commission earnings.
@@ -338,29 +321,23 @@ class Commissions {
 	 * @return array Parsed query arguments.
 	 */
 	private static function parse_args( array $args, ?string $period ): array {
-		if ( null === $period || 'all_time' === $period || ! in_array( $period, self::$periods, true ) ) {
+		if ( ! Dates::is_valid_period( $period ) ) {
 			return $args;
 		}
 
-		$dates = \EDD\Reports\parse_dates_for_range( $period );
+		$dates = Dates::get_dates( $period );
+		if ( ! $dates ) {
+			return $args;
+		}
 
 		$date_args = array(
 			'date' => array(
-				'start' => $dates['start']->copy()->format( 'mysql' ),
-				'end'   => $dates['end']->copy()->format( 'mysql' ),
+				'start' => $dates['start'],
+				'end'   => $dates['end'],
 			)
 		);
 
 		return wp_parse_args( $args, $date_args );
-	}
-
-	/**
-	 * Get valid time periods.
-	 *
-	 * @return array Array of valid time periods.
-	 */
-	public static function get_periods(): array {
-		return self::$periods;
 	}
 
 }

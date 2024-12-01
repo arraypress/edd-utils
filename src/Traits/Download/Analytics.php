@@ -15,8 +15,7 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
-use EDD_Download;
-Use ArrayPress\EDD\Downloads\Downloads;
+use ArrayPress\EDD\Stats\Downloads;
 
 trait Analytics {
 	use Core;

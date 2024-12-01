@@ -13,19 +13,8 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Customers;
 
-use ArrayPress\EDD\Traits\Customer\{
-	Admin,
-	Comments,
-	Core,
-	Fields,
-	Notes,
-	Orders,
-	Products,
-	Recurring,
-	Reviews,
-	Status,
-	Taxonomy
-};
+use ArrayPress\EDD\Traits\Customer\{Admin, Comments, Core, Fields, Notes, Orders, Discounts, Products, Recurring, Reviews, Status};
+use ArrayPress\EDD\Traits\Customer\Taxonomy;
 use ArrayPress\Utils\Traits\Shared\Meta;
 
 class Customer {
@@ -33,6 +22,7 @@ class Customer {
 	use Fields;
 	use Comments;
 	use Orders;
+	use Discounts;
 	use Products;
 	use Reviews;
 	use Recurring;

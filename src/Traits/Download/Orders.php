@@ -29,7 +29,7 @@ trait Orders {
 	 *
 	 * @return array Array of order IDs
 	 */
-	public static function get_purchased_order_ids( int $download_id = 0, string $status = 'complete' ): array {
+	public static function get_order_ids( int $download_id = 0, string $status = 'complete' ): array {
 		$download = self::get_validated( $download_id );
 		if ( ! $download ) {
 			return [];
@@ -116,7 +116,7 @@ trait Orders {
 		}
 
 		// Get order IDs where this product was purchased
-		$order_ids = self::get_purchased_order_ids( $download->ID );
+		$order_ids = self::get_order_ids( $download->ID );
 		if ( empty( $order_ids ) ) {
 			return [];
 		}

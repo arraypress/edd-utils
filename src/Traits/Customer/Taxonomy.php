@@ -15,7 +15,6 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
-use EDD_Customer;
 use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
 

@@ -25,7 +25,9 @@ use ArrayPress\EDD\Traits\Download\{
 	Price,
 	Recurring,
 	Reviews,
-	VariablePrices
+	VariablePrices,
+	Sales,
+	Earnings
 };
 use ArrayPress\Utils\Traits\Shared\Meta;
 
@@ -39,6 +41,8 @@ class Download {
 	use Recurring;
 	use Reviews;
 	use VariablePrices;
+	use Sales;
+	use Earnings;
 	use Meta;
 
 	/**
