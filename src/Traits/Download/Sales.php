@@ -23,7 +23,7 @@ trait Sales {
 	 *
 	 * @var string
 	 */
-	protected static string $earnings_meta_key = 'edd_product_sales_stats';
+	protected static string $sales_meta_key = 'edd_product_sales_stats';
 
 	/**
 	 * Get sales count for a product.
@@ -95,21 +95,21 @@ trait Sales {
 			return [];
 		}
 
-		$meta_key = self::$earnings_meta_key;
+		$meta_key = self::$sales_meta_key;
 		if ( ! is_null( $price_id ) ) {
 			$meta_key .= '_' . $price_id;
 		}
 
-		$stats = array();
+		$stats = [];
 
 		// Get all available periods
 		foreach ( Dates::get_periods() as $period ) {
-			$stats[ $period ] = array(
+			$stats[ $period ] = [
 				'sales'               => self::get_sales( $product_id, $price_id, $period, $args ),
 				'net_sales'           => self::get_net_sales( $product_id, $price_id, $period, $args ),
 				'average_daily_sales' => self::get_average_daily_sales( $product_id, $price_id, $period, $args ),
 				'generated'           => time()
-			);
+			];
 		}
 
 		// Store the stats in post meta
@@ -133,7 +133,7 @@ trait Sales {
 			return [];
 		}
 
-		$meta_key = self::$earnings_meta_key;
+		$meta_key = self::$sales_meta_key;
 		if ( ! is_null( $price_id ) ) {
 			$meta_key .= '_' . $price_id;
 		}
@@ -167,7 +167,7 @@ trait Sales {
 			return false;
 		}
 
-		$meta_key = self::$earnings_meta_key;
+		$meta_key = self::$sales_meta_key;
 		if ( ! is_null( $price_id ) ) {
 			$meta_key .= '_' . $price_id;
 		}
