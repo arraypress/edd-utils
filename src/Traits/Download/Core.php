@@ -20,23 +20,6 @@ use EDD_Download;
 trait Core {
 
 	/**
-	 * Get and validate a download object.
-	 *
-	 * @param int $download_id Download ID
-	 *
-	 * @return EDD_Download|null Download object or null if invalid
-	 */
-	protected static function get_validated( int $download_id = 0 ): ?EDD_Download {
-		if ( empty( $download_id ) ) {
-			$download_id = get_the_ID();
-		}
-
-		$download = edd_get_download( $download_id );
-
-		return ( $download instanceof EDD_Download ) ? $download : null;
-	}
-
-	/**
 	 * Get the download type.
 	 *
 	 * @param int $download_id Download ID
@@ -73,6 +56,23 @@ trait Core {
 		}
 
 		return add_query_arg( $url_args, edd_get_checkout_uri() );
+	}
+
+	/**
+	 * Get and validate a download object.
+	 *
+	 * @param int $download_id Download ID
+	 *
+	 * @return EDD_Download|null Download object or null if invalid
+	 */
+	protected static function get_validated( int $download_id = 0 ): ?EDD_Download {
+		if ( empty( $download_id ) ) {
+			$download_id = get_the_ID();
+		}
+
+		$download = edd_get_download( $download_id );
+
+		return ( $download instanceof EDD_Download ) ? $download : null;
 	}
 
 }

@@ -15,11 +15,11 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
+use ArrayPress\EDD\Downloads\Download;
 use EDD\Utils\ListHandler;
 use EDD_Download;
 
 trait VariablePrices {
-	Use Core;
 
 	/**
 	 * Get the specified field value from a variable price option.
@@ -31,7 +31,7 @@ trait VariablePrices {
 	 * @return mixed|null Field value or null if not found
 	 */
 	public static function get_variable_price_field( int $download_id, int $price_id, string $field ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return null;
 		}
@@ -55,7 +55,7 @@ trait VariablePrices {
 	 * @return bool True if the download has free options
 	 */
 	public static function has_free_variable_price_option( int $download_id = 0 ): bool {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download || ! edd_has_variable_prices( $download_id ) ) {
 			return false;
 		}
@@ -106,7 +106,7 @@ trait VariablePrices {
 	 * @return int|false Price ID or false if not found
 	 */
 	public static function get_price_id_by_field( int $download_id = 0, string $field = 'amount', string $type = 'max' ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download || ! edd_has_variable_prices( $download_id ) ) {
 			return false;
 		}
@@ -129,7 +129,7 @@ trait VariablePrices {
 	 * @return int|false Default price ID or false if not found
 	 */
 	public static function get_default_variable_price( int $download_id = 0 ) {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download || ! edd_has_variable_prices( $download_id ) ) {
 			return false;
 		}

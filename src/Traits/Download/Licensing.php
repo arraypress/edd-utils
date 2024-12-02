@@ -15,10 +15,10 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 
 trait Licensing {
-	use Core;
 
 	/**
 	 * Get licensing details for a product.
@@ -33,7 +33,7 @@ trait Licensing {
 			return self::get_default_licensing_details();
 		}
 
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return self::get_default_licensing_details();
 		}

@@ -15,10 +15,9 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
-use EDD_Download;
+use ArrayPress\EDD\Downloads\Download;
 
 trait Recurring {
-	Use Core;
 
 	/**
 	 * Get the number of subscription renewals/billing cycles for a product.
@@ -29,7 +28,7 @@ trait Recurring {
 	 * @return int Number of renewal times (0 means unlimited)
 	 */
 	public static function get_subscription_times( int $download_id, ?int $price_id = null ): int {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return 0;
 		}
@@ -58,7 +57,7 @@ trait Recurring {
 			return self::get_default_recurring_details();
 		}
 
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return self::get_default_recurring_details();
 		}
@@ -73,22 +72,6 @@ trait Recurring {
 		}
 
 		return self::build_recurring_details( $download_id, $price_id, $is_variable );
-	}
-
-	/**
-	 * Get default recurring details structure.
-	 *
-	 * @return array Default recurring details
-	 */
-	private static function get_default_recurring_details(): array {
-		return [
-			'is_recurring'      => false,
-			'trial_period'      => 0,
-			'trial_period_unit' => '',
-			'billing_cycle'     => '',
-			'renewal_times'     => 0,
-			'signup_fee'        => 0.00,
-		];
 	}
 
 	/**
@@ -127,6 +110,22 @@ trait Recurring {
 		}
 
 		return $details;
+	}
+
+	/**
+	 * Get default recurring details structure.
+	 *
+	 * @return array Default recurring details
+	 */
+	private static function get_default_recurring_details(): array {
+		return [
+			'is_recurring'      => false,
+			'trial_period'      => 0,
+			'trial_period_unit' => '',
+			'billing_cycle'     => '',
+			'renewal_times'     => 0,
+			'signup_fee'        => 0.00,
+		];
 	}
 
 }

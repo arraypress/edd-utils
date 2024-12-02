@@ -15,10 +15,10 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 
 trait Price {
-	use Core;
 
 	/**
 	 * Get the raw price of a download as a float.
@@ -29,7 +29,7 @@ trait Price {
 	 * @return float Returns the price as a float, 0.00 if not found
 	 */
 	public static function get_price( int $download_id = 0, ?int $price_id = null ): float {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return 0.00;
 		}
