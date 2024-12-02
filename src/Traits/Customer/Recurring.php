@@ -16,11 +16,11 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
 use EDD_Customer;
 use WP_User;
 
 trait Recurring {
-	use Core;
 
 	/**
 	 * Checks if the given customer has an active subscription.
@@ -38,7 +38,7 @@ trait Recurring {
 			return false;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 
 		if ( empty( $user ) ) {
 			return false;
@@ -63,7 +63,7 @@ trait Recurring {
 			return null;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 		if ( empty( $user ) ) {
 			return null;
 		}

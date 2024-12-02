@@ -18,7 +18,6 @@ namespace ArrayPress\EDD\Traits\Customer;
 use ArrayPress\Utils\Database\Exists;
 use ArrayPress\Utils\Users\User as CoreUser;
 use ArrayPress\Utils\Common\Cache;
-use WP_User;
 use EDD_Customer;
 
 trait Core {
@@ -170,66 +169,13 @@ trait Core {
 	}
 
 	/**
-	 * Retrieves the user object associated with a given customer ID.
-	 *
-	 * This function looks up the user linked to a specific customer by their ID.
-	 * It performs checks to ensure that a valid customer ID is provided and that
-	 * the corresponding user actually exists in the database. If the customer does
-	 * not exist or the user data is not found, the function will return null.
-	 *
-	 * @param int $customer_id The ID of the customer.
-	 *
-	 * @return WP_User|null A WP_User object on success, or null on failure.
-	 */
-	public static function get_user( int $customer_id ): ?WP_User {
-		$customer = self::get_validated( $customer_id );
-		if ( ! $customer ) {
-			return null;
-		}
-
-		$user = get_userdata( $customer->user_id );
-
-		if ( ! $user || ! $user->exists() ) {
-			return null;
-		}
-
-		return $user;
-	}
-
-	/**
-	 * Checks if a user has a role.
-	 *
-	 * @param int    $customer_id The customer ID.
-	 * @param string $role        The role.
-	 *
-	 * @return bool|null True if the user has the role, false if they do not, null if the customer does not exist or is
-	 *                   invalid.
-	 */
-	public static function has_user_role( int $customer_id, string $role ): ?bool {
-		$customer = self::get_validated( $customer_id );
-		if ( ! $customer ) {
-			return null;
-		}
-
-		$user = get_userdata( $customer->user_id );
-
-		if ( ! $user || ! $user->exists() ) {
-			return null;
-		}
-
-		return in_array( trim( $role ), $user->roles, true );
-	}
-
-	/** Helper Methods ******************************************************/
-
-	/**
 	 * Get and validate a customer object.
 	 *
 	 * @param int $customer_id Customer ID
 	 *
 	 * @return EDD_Customer|null Customer object or null if invalid
 	 */
-	protected static function get_validated( int $customer_id = 0 ): ?EDD_Customer {
+	public static function get_validated( int $customer_id = 0 ): ?EDD_Customer {
 		// Bail if no customer ID was passed
 		if ( empty( $customer_id ) ) {
 			return null;

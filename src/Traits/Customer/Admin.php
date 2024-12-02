@@ -15,11 +15,10 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
 use ArrayPress\Utils\Elements\Element;
-use EDD_Customer;
 
 trait Admin {
-	Use Core;
 
 	/**
 	 * Retrieve the customer admin URL.
@@ -49,7 +48,7 @@ trait Admin {
 	 * @return string|null HTML link to the customer admin logs, or null if not available.
 	 */
 	public static function get_admin_link( int $customer_id = 0, string $label = '' ): ?string {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}

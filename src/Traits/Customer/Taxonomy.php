@@ -15,12 +15,11 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
 use ArrayPress\Utils\Terms\Terms as CoreTerms;
 
 
 trait Taxonomy {
-	use Core;
-	use Products;
 
 	/**
 	 * Retrieve terms associated with a customer's purchased products.
@@ -38,7 +37,7 @@ trait Taxonomy {
 		}
 
 		// Get product IDs
-		$product_ids = self::get_product_ids( $customer_id, $status );
+		$product_ids = Customer::get_product_ids( $customer_id, $status );
 		if ( empty( $product_ids ) ) {
 			return null;
 		}

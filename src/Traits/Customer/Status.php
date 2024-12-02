@@ -15,11 +15,9 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
-use EDD_Customer;
+use ArrayPress\EDD\Customers\Customer;
 
 trait Status {
-	use Core;
-	use Fields;
 
 	/**
 	 * Valid customer statuses.
@@ -27,13 +25,13 @@ trait Status {
 	 * @return array
 	 */
 	public static function get_valid_statuses(): array {
-		return array(
+		return [
 			'active',
 			'inactive',
 			'pending',
 			'blocked',
 			'suspended'
-		);
+		];
 	}
 
 	/**
@@ -45,8 +43,7 @@ trait Status {
 	 * @return bool True if the status was updated successfully, false otherwise.
 	 */
 	public static function set_status( int $customer_id = 0, string $status = 'active' ): bool {
-		// Validate customer
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return false;
 		}
@@ -76,7 +73,7 @@ trait Status {
 	 * @return string|null The status of the customer as a string, or null if no status is found.
 	 */
 	public static function get_status( int $customer_id = 0 ): ?string {
-		return self::get_field( $customer_id, 'status' );
+		return Customer::get_field( $customer_id, 'status' );
 	}
 
 	/**

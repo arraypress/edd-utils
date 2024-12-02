@@ -16,60 +16,11 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
-use ArrayPress\EDD\Date\Calc;
-use ArrayPress\EDD\Date\Common;
+use ArrayPress\EDD\Customers\Customer;
 use ArrayPress\EDD\Date\Generate;
 use ArrayPress\Utils\Common\Cache;
-use EDD_Customer;
 
 trait Orders {
-	use Core;
-
-	/**
-	 * Retrieve the number of orders made by a customer.
-	 *
-	 * @param int  $customer_id The ID of the customer.
-	 * @param bool $formatted   Whether to return a formatted string or raw count.
-	 *
-	 * @return int|string|null The number of orders as an integer or formatted string, or null on failure.
-	 */
-	public static function get_purchase_count( int $customer_id, bool $formatted = false ) {
-		$customer = self::get_validated( $customer_id );
-		if ( ! $customer ) {
-			return null;
-		}
-
-		$count = $customer->purchase_count;
-
-		if ( ! $formatted ) {
-			return $count;
-		} else {
-			return number_format_i18n( $count );
-		}
-	}
-
-	/**
-	 * Retrieve the total amount spent by a customer.
-	 *
-	 * @param int  $customer_id The ID of the customer.
-	 * @param bool $formatted   Whether to return a formatted string or raw value.
-	 *
-	 * @return float|string|null The total amount spent as a float or formatted string, or null on failure.
-	 */
-	public static function get_purchase_value( int $customer_id, bool $formatted = false ) {
-		$customer = self::get_validated( $customer_id );
-		if ( ! $customer ) {
-			return null;
-		}
-
-		$total_spent = $customer->purchase_value;
-
-		if ( ! $formatted ) {
-			return $total_spent;
-		} else {
-			return edd_currency_filter( edd_format_amount( $total_spent ) );
-		}
-	}
 
 	/**
 	 * Check if a customer has any orders based on their customer ID.
@@ -100,14 +51,15 @@ trait Orders {
 	/**
 	 * Retrieve the average order value for a customer.
 	 *
-	 * @param int   $customer_id The ID of the customer.
-	 * @param bool  $formatted   Whether to return a formatted string or raw value.
-	 * @param array $query_args  Additional query arguments for orders.
+	 * @param int    $customer_id The ID of the customer.
+	 * @param bool   $formatted   Whether to return a formatted string or raw value.
+	 * @param string $field       The order field to calculate average for (default: 'total').
+	 * @param array  $query_args  Additional query arguments for orders.
 	 *
 	 * @return float|string|null The average order value, formatted string if requested, or null on failure.
 	 */
-	public static function get_average_order_value( int $customer_id = 0, bool $formatted = false, array $query_args = array() ) {
-		$customer = self::get_validated( $customer_id );
+	public static function get_average_order_amount( int $customer_id = 0, bool $formatted = false, string $field = 'total', array $query_args = array() ) {
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -128,13 +80,13 @@ trait Orders {
 			return null; // No orders found for the customer.
 		}
 
-		// Calculate the total value of all orders
-		$total_value = array_sum( wp_list_pluck( $orders, 'total' ) );
+		// Calculate the total value of all orders using the specified field
+		$total_value = array_sum( wp_list_pluck( $orders, $field ) );
 
-		// Calculate the average order value.
+		// Calculate the average order value
 		$average_order_value = $total_value / count( $orders );
 
-		// Return the average order value, formatted if requested.
+		// Return the average order value, formatted if requested
 		if ( $formatted ) {
 			return edd_currency_filter( edd_format_amount( $average_order_value ) );
 		}
@@ -145,13 +97,14 @@ trait Orders {
 	/**
 	 * Retrieves the highest order value for a given customer.
 	 *
-	 * @param int   $customer_id The ID of the customer whose highest order value is to be retrieved.
-	 * @param array $query_args  Optional. Additional arguments to customize the orders query.
+	 * @param int    $customer_id The ID of the customer whose highest order value is to be retrieved.
+	 * @param string $field       Optional. The order field to check (default: 'total').
+	 * @param array  $query_args  Optional. Additional arguments to customize the orders query.
 	 *
 	 * @return float|null The value of the highest order as a float, or null if no orders are found.
 	 */
-	public static function get_highest_order_value( int $customer_id, array $query_args = [] ): ?float {
-		$customer = self::get_validated( $customer_id );
+	public static function get_highest_order_amount( int $customer_id, string $field = 'total', array $query_args = [] ): ?float {
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -161,8 +114,8 @@ trait Orders {
 			'order'       => 'DESC',
 			'type'        => 'sale',
 			'status__in'  => edd_get_complete_order_statuses(),
-			'orderby'     => 'total',
-			'fields'      => 'total',
+			'orderby'     => $field,
+			'fields'      => $field,
 			'number'      => 1,
 		];
 
@@ -180,13 +133,14 @@ trait Orders {
 	/**
 	 * Retrieves the lowest order value for a given customer.
 	 *
-	 * @param int   $customer_id The ID of the customer whose lowest order value is to be retrieved.
-	 * @param array $query_args  Optional. Additional arguments to customize the orders query.
+	 * @param int    $customer_id The ID of the customer whose lowest order value is to be retrieved.
+	 * @param string $field       Optional. The order field to check (default: 'total').
+	 * @param array  $query_args  Optional. Additional arguments to customize the orders query.
 	 *
 	 * @return float|null The value of the lowest order as a float, or null if no orders are found.
 	 */
-	public static function get_lowest_order_value( int $customer_id, array $query_args = [] ): ?float {
-		return self::get_highest_order_value( $customer_id, wp_parse_args( $query_args, [ 'order' => 'ASC' ] ) );
+	public static function get_lowest_order_amount( int $customer_id, string $field = 'total', array $query_args = [] ): ?float {
+		return self::get_highest_order_amount( $customer_id, $field, wp_parse_args( $query_args, [ 'order' => 'ASC' ] ) );
 	}
 
 	/**
@@ -198,7 +152,7 @@ trait Orders {
 	 * @return int|null The ID of the latest order, or null if no orders are found.
 	 */
 	public static function get_latest_order_id( int $customer_id, array $query_args = [] ): ?int {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -230,77 +184,6 @@ trait Orders {
 	}
 
 	/**
-	 * Check the order velocity for a customer.
-	 *
-	 * @param int    $customer_id The ID of the customer.
-	 * @param int    $count       The number of orders to check for.
-	 * @param string $unit        The time unit ('minutes', 'hours', 'days').
-	 * @param int    $period      The number of time units to look back.
-	 *
-	 * @return bool True if the customer has made $count or more orders in the specified time period.
-	 * @throws \Exception
-	 */
-	public static function check_order_velocity( int $customer_id, int $count, string $unit, int $period ): bool {
-		if ( empty( $customer_id ) ) {
-			return false;
-		}
-
-		$end_date   = Common::now();
-		$start_date = Calc::expiration( - $period, $unit, $end_date );
-
-		$args = [
-			'customer_id' => $customer_id,
-			'status__in'  => edd_get_complete_order_statuses(),
-			'type'        => 'sale',
-			'date_query'  => Generate::date_range_query( $start_date, $end_date ),
-			'number'      => $count, // We only need to know if there are at least $count orders
-		];
-
-		$orders = edd_get_orders( $args );
-
-		return count( $orders ) >= $count;
-	}
-
-	/**
-	 * Check the order item velocity for a customer.
-	 *
-	 * @param int    $customer_id The ID of the customer.
-	 * @param int    $count       The number of order items to check for.
-	 * @param string $unit        The time unit ('minutes', 'hours', 'days').
-	 * @param int    $period      The number of time units to look back.
-	 *
-	 * @return bool True if the customer has purchased $count or more items in the specified time period.
-	 * @throws \Exception
-	 */
-	public static function check_order_item_velocity( int $customer_id, int $count, string $unit, int $period ): bool {
-		if ( empty( $customer_id ) ) {
-			return false;
-		}
-
-		$end_date   = Common::now();
-		$start_date = Calc::expiration( - $period, $unit, $end_date );
-
-		$args = [
-			'customer_id' => $customer_id,
-			'status__in'  => edd_get_complete_order_statuses(),
-			'type'        => 'sale',
-			'date_query'  => Generate::date_range_query( $start_date, $end_date ),
-		];
-
-		$orders = edd_get_orders( $args );
-
-		$item_count = 0;
-		foreach ( $orders as $order ) {
-			$item_count += edd_count_order_items( [ 'order_id' => $order->id ] );
-			if ( $item_count >= $count ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Retrieve the count of orders made by a specific customer within a date range.
 	 *
 	 * @param int    $customer_id    The ID of the customer.
@@ -317,7 +200,7 @@ trait Orders {
 		string $end_date = '',
 		bool $convert_to_utc = true
 	): ?int {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -355,7 +238,7 @@ trait Orders {
 		string $end_date = '',
 		bool $convert_to_utc = true
 	): ?float {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}

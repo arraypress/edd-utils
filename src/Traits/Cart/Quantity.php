@@ -15,7 +15,7 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Cart;
 
-trait ProductType {
+trait Quantity {
 
 	/**
 	 * Retrieve the count of products in the cart based on product type.

@@ -17,32 +17,28 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Downloads;
 
 use ArrayPress\EDD\Traits\Download\{
-	Analytics,
 	Core,
-	Generate,
+	Earnings,
 	Licensing,
 	Orders,
 	Price,
 	Recurring,
 	Reviews,
-	VariablePrices,
 	Sales,
-	Earnings
+	VariablePrices
 };
 use ArrayPress\Utils\Traits\Shared\Meta;
 
 class Download {
-	use Analytics;
 	use Core;
-	use Generate;
+	use Earnings;
 	use Licensing;
 	use Orders;
 	use Price;
 	use Recurring;
 	use Reviews;
-	use VariablePrices;
 	use Sales;
-	use Earnings;
+	use VariablePrices;
 	use Meta;
 
 	/**

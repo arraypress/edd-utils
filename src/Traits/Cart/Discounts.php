@@ -18,15 +18,6 @@ namespace ArrayPress\EDD\Traits\Cart;
 trait Discounts {
 
 	/**
-	 * Get all discount IDs in the cart.
-	 *
-	 * @return array Array of discount IDs.
-	 */
-	public static function get_discount_ids(): array {
-		return self::get_discounts();
-	}
-
-	/**
 	 * Retrieve all discounts in the cart.
 	 *
 	 * @param bool $return_objects Whether to return discount objects or IDs.
@@ -44,6 +35,15 @@ trait Discounts {
 		}
 
 		return $return_objects ? $discounts : array_unique( wp_list_pluck( $discounts, 'id' ) );
+	}
+
+	/**
+	 * Get all discount IDs in the cart.
+	 *
+	 * @return array Array of discount IDs.
+	 */
+	public static function get_discount_ids(): array {
+		return self::get_discounts();
 	}
 
 }

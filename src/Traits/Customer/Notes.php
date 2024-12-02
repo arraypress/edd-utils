@@ -15,10 +15,9 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
-use EDD_Customer;
+use ArrayPress\EDD\Customers\Customer;
 
 trait Notes {
-	use Core;
 
 	/**
 	 * Check if a customer has any notes.
@@ -40,7 +39,7 @@ trait Notes {
 	 * @return bool|null True on success, false on failure, null if customer not found.
 	 */
 	public static function add_note( int $customer_id, string $note ): ?bool {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -58,7 +57,7 @@ trait Notes {
 	 * @return array An array of customer notes.
 	 */
 	public static function get_notes( int $customer_id, int $length = 20, int $paged = 1 ): array {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return [];
 		}
@@ -74,7 +73,7 @@ trait Notes {
 	 * @return int The number of notes for the customer.
 	 */
 	public static function get_notes_count( int $customer_id ): int {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return 0;
 		}
@@ -93,7 +92,7 @@ trait Notes {
 	 * @return array Array of notes that match the search criteria.
 	 */
 	public static function get_notes_by( int $customer_id, string $search, int $length = 20, int $paged = 1 ): array {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer || empty( $search ) ) {
 			return [];
 		}
@@ -115,7 +114,7 @@ trait Notes {
 	 * @return object|null The most recent note object or null if no notes exist.
 	 */
 	public static function get_latest_note( int $customer_id ): ?object {
-		$notes = self::get_notes( $customer_id, 1 );
+		$notes = Customer::get_notes( $customer_id, 1 );
 
 		return ! empty( $notes ) ? reset( $notes ) : null;
 	}
@@ -128,7 +127,7 @@ trait Notes {
 	 * @return bool True if notes were deleted successfully, false otherwise.
 	 */
 	public static function delete_all_notes( int $customer_id ): bool {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return false;
 		}

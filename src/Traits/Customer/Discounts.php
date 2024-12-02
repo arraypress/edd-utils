@@ -15,8 +15,21 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
+
 trait Discounts {
-	use Core;
+
+	/**
+	 * Get all discount IDs used by a customer across their order history.
+	 *
+	 * @param int   $customer_id The ID of the customer.
+	 * @param array $query_args  Optional. Additional arguments to customize the orders query.
+	 *
+	 * @return array|null Array of discount IDs, or null if customer ID is invalid.
+	 */
+	public static function get_discount_ids( int $customer_id, array $query_args = [] ): ?array {
+		return self::get_discounts( $customer_id, false, $query_args );
+	}
 
 	/**
 	 * Retrieve all discount IDs used by a customer across their order history.
@@ -27,8 +40,8 @@ trait Discounts {
 	 *
 	 * @return array|null Array of discount IDs or objects, or null if customer ID is invalid.
 	 */
-	public static function get_used_discounts( int $customer_id, bool $return_objects = false, array $query_args = [] ): ?array {
-		$customer = self::get_validated( $customer_id );
+	public static function get_discounts( int $customer_id, bool $return_objects = false, array $query_args = [] ): ?array {
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -81,7 +94,7 @@ trait Discounts {
 	 * @return float|string|null Total savings amount, formatted string if requested, or null if customer ID is invalid.
 	 */
 	public static function get_discount_total_savings( int $customer_id, bool $formatted = false, array $query_args = [] ) {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}

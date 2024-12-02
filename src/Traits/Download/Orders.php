@@ -15,11 +15,11 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Download;
 
+use ArrayPress\EDD\Downloads\Download;
 use EDD_Download;
 use EDD\Database\Queries\Order_Item;
 
 trait Orders {
-	use Core;
 
 	/**
 	 * Get order IDs for purchases of a download.
@@ -30,7 +30,7 @@ trait Orders {
 	 * @return array Array of order IDs
 	 */
 	public static function get_order_ids( int $download_id = 0, string $status = 'complete' ): array {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return [];
 		}
@@ -45,6 +45,34 @@ trait Orders {
 		] );
 
 		return array_values( array_map( 'absint', $ids ) );
+	}
+
+	/**
+	 * Get the purchase date for a download based on specified criteria.
+	 *
+	 * @param int    $download_id Optional. Download ID. Will use current post ID if not provided.
+	 * @param string $type        Optional. Type of date to retrieve ('first' or 'last'). Default 'last'.
+	 *
+	 * @return string|null Purchase date or null if never purchased
+	 */
+	public static function get_purchase_date( int $download_id = 0, string $type = 'last' ): ?string {
+		$download = Download::get_validated( $download_id );
+		if ( ! $download ) {
+			return null;
+		}
+
+		$order = $type === 'first' ? 'ASC' : 'DESC';
+
+		$order_items = edd_get_order_items( [
+			'number'     => 1,
+			'product_id' => $download->ID,
+			'type'       => 'download',
+			'order'      => $order
+		] );
+
+		return ! empty( $order_items ) && isset( $order_items[0] )
+			? $order_items[0]->date_created
+			: null;
 	}
 
 	/**
@@ -70,34 +98,6 @@ trait Orders {
 	}
 
 	/**
-	 * Get the purchase date for a download based on specified criteria.
-	 *
-	 * @param int    $download_id Optional. Download ID. Will use current post ID if not provided.
-	 * @param string $type        Optional. Type of date to retrieve ('first' or 'last'). Default 'last'.
-	 *
-	 * @return string|null Purchase date or null if never purchased
-	 */
-	public static function get_purchase_date( int $download_id = 0, string $type = 'last' ): ?string {
-		$download = self::get_validated( $download_id );
-		if ( ! $download ) {
-			return null;
-		}
-
-		$order = $type === 'first' ? 'ASC' : 'DESC';
-
-		$order_items = edd_get_order_items( [
-			'number'     => 1,
-			'product_id' => $download->ID,
-			'type'       => 'download',
-			'order'      => $order
-		] );
-
-		return ! empty( $order_items ) && isset( $order_items[0] )
-			? $order_items[0]->date_created
-			: null;
-	}
-
-	/**
 	 * Get suggested product IDs based on order history.
 	 *
 	 * Returns an array of product IDs that other customers have purchased along with
@@ -110,7 +110,7 @@ trait Orders {
 	 * @return array Array of suggested product IDs, ordered by popularity
 	 */
 	public static function get_recommendations( int $download_id = 0, int $customer_id = 0, int $limit = 5 ): array {
-		$download = self::get_validated( $download_id );
+		$download = Download::get_validated( $download_id );
 		if ( ! $download ) {
 			return [];
 		}

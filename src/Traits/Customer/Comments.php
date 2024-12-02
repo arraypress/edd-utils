@@ -15,10 +15,9 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
-use WP_User;
+use ArrayPress\EDD\Customers\Customer;
 
 trait Comments {
-	use Core;
 
 	/**
 	 * Retrieves all comments for a given customer.
@@ -34,7 +33,7 @@ trait Comments {
 			return null;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 
 		// Bail if no user was found.
 		if ( empty( $user ) ) {
@@ -66,7 +65,7 @@ trait Comments {
 			return null;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 
 		// Bail if no user was found.
 		if ( empty( $user ) ) {

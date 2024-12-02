@@ -13,8 +13,9 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
+
 trait Licensing {
-	use Core;
 
 	/**
 	 * Checks if the customer has any active licenses.
@@ -30,7 +31,7 @@ trait Licensing {
 			return false;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 		if ( empty( $user ) ) {
 			return false;
 		}
@@ -65,7 +66,7 @@ trait Licensing {
 			return null;
 		}
 
-		$user = self::get_user( $customer_id );
+		$user = Customer::get_user( $customer_id );
 		if ( empty( $user ) ) {
 			return null;
 		}

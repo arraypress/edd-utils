@@ -15,11 +15,10 @@ declare( strict_types=1 );
 
 namespace ArrayPress\EDD\Traits\Customer;
 
+use ArrayPress\EDD\Customers\Customer;
 use ArrayPress\Utils\Common\Split;
-use EDD_Customer;
 
 trait Fields {
-	use Core;
 
 	/**
 	 * Get a specific field from the customer.
@@ -30,7 +29,7 @@ trait Fields {
 	 * @return mixed The field value or null if not found.
 	 */
 	public static function get_field( int $customer_id, string $field ) {
-		$customer = static::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return null;
 		}
@@ -82,7 +81,7 @@ trait Fields {
 	 * @return array An array of email addresses associated with the customer.
 	 */
 	public static function get_emails( int $customer_id ): array {
-		$customer = self::get_validated( $customer_id );
+		$customer = Customer::get_validated( $customer_id );
 		if ( ! $customer ) {
 			return [];
 		}
@@ -91,34 +90,21 @@ trait Fields {
 	}
 
 	/**
-	 * Get the full name of a specified customer.
+	 * Get the name of a specified customer.
 	 *
-	 * @param int $customer_id The ID of the customer.
+	 * @param int  $customer_id The ID of the customer.
+	 * @param bool $split       Whether to split the name into first and last components.
 	 *
-	 * @return string|null The full name of the customer, or null if none found.
+	 * @return array|string|null The customer name as a string, split name array, or null if none found.
 	 */
-	public static function get_name( int $customer_id ): ?string {
-		return self::get_field( $customer_id, 'name' );
-	}
+	public static function get_name( int $customer_id, bool $split = false ) {
+		$name = self::get_field( $customer_id, 'name' );
 
-	/**
-	 * Split a customer's full name into first and last names.
-	 *
-	 * @param int $customer_id The ID of the customer.
-	 *
-	 * @return array An array containing 'first_name' and 'last_name'.
-	 */
-	public static function get_name_split( int $customer_id ): array {
-		$customer = edd_get_customer( $customer_id );
-
-		if ( ! $customer ) {
-			return [
-				'first_name' => '',
-				'last_name'  => '',
-			];
+		if ( $split && $name ) {
+			return Split::full_name( $name );
 		}
 
-		return Split::full_name( $customer->name );
+		return $name;
 	}
 
 	/**

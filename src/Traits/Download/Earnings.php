@@ -14,6 +14,8 @@ declare( strict_types=1 );
 namespace ArrayPress\EDD\Traits\Download;
 
 use ArrayPress\EDD\Stats\Dates;
+use ArrayPress\EDD\Stats\Downloads;
+use ArrayPress\EDD\Common\Generate;
 use EDD\Stats;
 
 trait Earnings {
@@ -95,12 +97,9 @@ trait Earnings {
 			return [];
 		}
 
-		$meta_key = self::$earnings_meta_key;
-		if ( ! is_null( $price_id ) ) {
-			$meta_key .= '_' . $price_id;
-		}
+		$meta_key = Generate::product_meta_key( self::$earnings_meta_key, $price_id );
 
-		$stats = array();
+		$stats = [];
 
 		// Get all available periods
 		foreach ( Dates::get_periods() as $period ) {
@@ -133,10 +132,7 @@ trait Earnings {
 			return [];
 		}
 
-		$meta_key = self::$earnings_meta_key;
-		if ( ! is_null( $price_id ) ) {
-			$meta_key .= '_' . $price_id;
-		}
+		$meta_key = Generate::product_meta_key( self::$earnings_meta_key, $price_id );
 
 		// Get cached stats
 		$stats = get_post_meta( $product_id, $meta_key, true );
@@ -167,12 +163,28 @@ trait Earnings {
 			return false;
 		}
 
-		$meta_key = self::$earnings_meta_key;
-		if ( ! is_null( $price_id ) ) {
-			$meta_key .= '_' . $price_id;
-		}
+		$meta_key = Generate::product_meta_key( self::$earnings_meta_key, $price_id );
 
 		return delete_post_meta( $product_id, $meta_key );
+	}
+
+	/**
+	 * Check if a product is among the highest earning products.
+	 *
+	 * @param int $download_id Download ID
+	 * @param int $limit       Number of top products to check against
+	 *
+	 * @return bool True if product is a top earner
+	 */
+	public static function is_top_earner( int $download_id, int $limit = 10 ): bool {
+		$download = self::get_validated( $download_id );
+		if ( ! $download ) {
+			return false;
+		}
+
+		$top_earners = Downloads::get_highest_earning( $limit );
+
+		return in_array( $download_id, $top_earners, true );
 	}
 
 }

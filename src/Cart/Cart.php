@@ -17,7 +17,7 @@ use ArrayPress\EDD\Traits\Cart\{
 	Core,
 	Discounts,
 	Products,
-	ProductType,
+	Quantity,
 	Taxonomy,
 	Totals
 };
@@ -26,7 +26,7 @@ class Cart {
 	use Core;
 	use Discounts;
 	use Products;
-	use ProductType;
+	use Quantity;
 	use Taxonomy;
 	use Totals;
 }
